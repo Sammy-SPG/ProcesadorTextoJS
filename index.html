@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- css del editor -->
+  <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link rel="stylesheet" href="style.css">
+  <title>Document</title>
+</head>
+
+<body>
+
+  <nav class="navbar navbar-dark bg-dark">
+    <div class="container">
+      <a class="navbar-brand" href="#">
+        <img src="./logo.jpg" alt="" width="50" height="30" class="d-inline-block align-text-top"> Samuel
+        Palomares
+      </a>
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" href="#">Github</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container" style="margin-top: 5vh;">
+    <div id="toolbar-container" style="display: none;">
+      <select class="ql-font">
+        <option selected>Aref Ruqaa</option>
+        <option value="mirza">Mirza</option>
+        <option value="roboto">Roboto</option>
+      </select>
+    </div>
+
+    <div id="editor">
+
+    </div>
+  </div>
+</body>
+
+<!-- script del editor -->
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+
+<!-- propiedades -->
+<script>
+
+  // specify the fonts you would 
+  var fonts = ['Arial', 'Courier', 'Garamond', 'Tahoma', 'Times New Roman', 'Verdana', 'Inconsolata'];
+  // generate code friendly names
+  function getFontName(font) {
+    return font.toLowerCase().replace(/\s/g, "-");
+  }
+  var fontNames = fonts.map(font => getFontName(font));
+  // add fonts to style
+  var fontStyles = "";
+  fonts.forEach(function (font) {
+    var fontName = getFontName(font);
+    fontStyles += ".ql-snow .ql-picker.ql-font .ql-picker-label[data-value=" + fontName + "]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value=" + fontName + "]::before {" +
+      "content: '" + font + "';" +
+      "font-family: '" + font + "', sans-serif;" +
+      "}" +
+      ".ql-font-" + fontName + "{" +
+      " font-family: '" + font + "', sans-serif;" +
+      "}";
+  });
+  var node = document.createElement('style');
+  node.innerHTML = fontStyles;
+  document.body.appendChild(node);
+
+  let toolbarOptions = [
+    [{ 'size': ['small', 'normal', 'large', 'huge'] }],
+    [{ 'font': fontNames }],
+    [{ 'header': 1 }, { 'header': 2 }],
+    ['bold', 'italic', 'underline', 'strike'],
+    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+    [{ 'indent': '-1' }, { 'indent': '+1' }],
+    ['blockquote', 'code-block'],
+    ['link', 'image', 'formula'],
+    [{ 'color': [] }, { 'background': [] }]
+  ]
+
+  var Font = Quill.import('formats/font');
+  Font.whitelist = fontNames;
+  Quill.register(Font, true);
+
+  var quill = new Quill('#editor', {
+    modules: {
+      syntax: true,              // Include syntax module
+      toolbar: toolbarOptions //'#toolbar'  // Include button in toolbar
+    },
+    theme: 'snow'
+  });
+</script>
+
+</html>
